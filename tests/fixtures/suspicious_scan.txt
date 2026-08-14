@@ -1,0 +1,13 @@
+EXPLAIN (ANALYZE, BUFFERS)
+SELECT *
+FROM orders
+WHERE order_status = 'pending'
+  AND created_at > '2024-01-01';
+
+Seq Scan on orders  (cost=0.00..4312.00 rows=12 width=64)
+  (actual time=0.020..42.301 rows=421 loops=1)
+  Filter: (order_status = 'pending'::text)
+  Rows Removed by Filter: 184923
+  Buffers: shared hit=1000 read=234
+Planning Time: 11.111 ms
+Execution Time: 42.301 ms

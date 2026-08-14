@@ -1,0 +1,12 @@
+EXPLAIN (ANALYZE, BUFFERS)
+SELECT *
+FROM orders
+WHERE customer_id = 42 AND status = 'shipped';
+
+Seq Scan on orders  (cost=0.00..9123.11 rows=245 width=64)
+  (actual time=0.010..218.103 rows=118 loops=1)
+  Filter: ((customer_id = 42) AND (status = 'shipped'::text))
+  Rows Removed by Filter: 182345
+  Buffers: shared read=3300
+Planning Time: 18.44 ms
+Execution Time: 218.103 ms

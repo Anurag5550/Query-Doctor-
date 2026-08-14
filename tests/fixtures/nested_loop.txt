@@ -1,0 +1,16 @@
+EXPLAIN (ANALYZE, BUFFERS)
+SELECT *
+FROM users u
+JOIN orders o ON u.id = o.customer_id
+WHERE u.region = 'west';
+
+Nested Loop  (cost=0.00..155921.09 rows=567 width=112)
+  (actual time=0.104..4512.901 rows=4200 loops=1)
+  ->  Index Scan using idx_users_region on users  (cost=0.00..132.00 rows=140 width=32)
+        (actual time=0.010..1.211 rows=140 loops=1)
+        Index Cond: (region = 'west'::text)
+  ->  Index Scan using idx_orders_customer_id on orders  (cost=0.00..832.00 rows=1000 width=64)
+        (actual time=0.100..30.000 rows=30 loops=140)
+        Index Cond: (customer_id = users.id)
+Planning Time: 45.91 ms
+Execution Time: 4512.901 ms

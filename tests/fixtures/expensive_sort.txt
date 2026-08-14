@@ -1,0 +1,13 @@
+EXPLAIN (ANALYZE, BUFFERS)
+SELECT *
+FROM line_items
+ORDER BY created_at DESC;
+
+Sort  (cost=48123.99..48124.00 rows=50000 width=92)
+  (actual time=1020.400..1288.300 rows=50000 loops=1)
+  Sort Key: created_at DESC
+  Sort Method: external merge  Disk: 1263kB
+  ->  Seq Scan on line_items  (cost=0.00..2839.00 rows=50000 width=92)
+        (actual time=0.213..130.901 rows=50000 loops=1)
+Planning Time: 14.40 ms
+Execution Time: 1288.300 ms

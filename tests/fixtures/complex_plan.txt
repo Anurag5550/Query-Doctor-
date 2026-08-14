@@ -1,0 +1,36 @@
+EXPLAIN (ANALYZE, BUFFERS)
+SELECT c.id, sum(oi.quantity)
+FROM customers c
+JOIN orders o ON c.id = o.customer_id
+JOIN order_items oi ON o.id = oi.order_id
+WHERE c.region = 'west'
+  AND o.status = 'paid'
+GROUP BY c.id
+ORDER BY sum(oi.quantity) DESC;
+
+Sort  (cost=41234.00..41235.00 rows=4000 width=48)
+  (actual time=342.000..412.300 rows=235 loops=1)
+  Sort Key: (sum(order_items.quantity)) DESC
+  Sort Method: quicksort  Memory:  7199kB
+  ->  HashAggregate  (cost=40112.00..40112.00 rows=4000 width=48)
+        (actual time=230.100..251.900 rows=235 loops=1)
+        Group Key: c.id
+        ->  Hash Join  (cost=32400.00..34500.00 rows=70800 width=32)
+              (actual time=19.881..205.332 rows=73440 loops=1)
+              Hash Cond: (order_items.order_id = orders.id)
+              ->  Seq Scan on order_items  (cost=0.00..1880.00 rows=50000 width=24)
+                    (actual time=0.214..79.120 rows=50000 loops=1)
+              ->  Hash  (cost=10600.00..10600.00 rows=22000 width=32)
+                    (actual time=2.143..92.903 rows=22000 loops=1)
+                    ->  Nested Loop  (cost=0.00..12000.00 rows=22000 width=32)
+                          (actual time=0.209..220.100 rows=22000 loops=1)
+                          ->  Index Scan using customers_region_idx on customers  (cost=0.00..421.00 rows=523 width=24)
+                                (actual time=0.030..3.200 rows=523 loops=1)
+                                Index Cond: (region = 'west'::text)
+                          ->  Index Scan using orders_customer_fk on orders  (cost=0.00..210.00 rows=42 width=24)
+                                (actual time=0.041..7.800 rows=42 loops=523)
+                                Index Cond: (customer_id = customers.id)
+                                Filter: (status = 'paid'::text)
+                                Rows Removed by Filter: 1182
+Planning Time: 180.200 ms
+Execution Time: 412.300 ms

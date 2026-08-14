@@ -1,0 +1,11 @@
+EXPLAIN (ANALYZE, BUFFERS)
+SELECT *
+FROM events
+WHERE event_type = 'checkout';
+
+Seq Scan on events  (cost=0.00..840.25 rows=10 width=96)
+  (actual time=0.013..810.230 rows=8421 loops=1)
+  Filter: (event_type = 'checkout'::text)
+  Rows Removed by Filter: 281778
+Planning Time: 6.77 ms
+Execution Time: 810.230 ms

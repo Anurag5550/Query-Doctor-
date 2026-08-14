@@ -1,0 +1,2 @@
+[console_scripts]
+query-doctor = query_doctor.cli:app

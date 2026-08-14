@@ -1,0 +1,65 @@
+[
+  {
+    "Plan": {
+      "Node Type": "Hash Join",
+      "Actual Rows": 73440,
+      "Actual Total Time": 205.332,
+      "Plan Rows": 70800,
+      "Total Cost": 34500.0,
+      "Plans": [
+        {
+          "Node Type": "Seq Scan",
+          "Relation Name": "order_items",
+          "Actual Rows": 50000,
+          "Actual Total Time": 79.12,
+          "Rows Removed by Filter": 0,
+          "Plan Rows": 50000,
+          "Total Cost": 1880.0,
+          "Plans": []
+        },
+        {
+          "Node Type": "Hash",
+          "Actual Rows": 22000,
+          "Actual Total Time": 92.903,
+          "Plan Rows": 22000,
+          "Total Cost": 10600.0,
+          "Plans": [
+            {
+              "Node Type": "Nested Loop",
+              "Actual Rows": 22000,
+              "Actual Total Time": 220.1,
+              "Plan Rows": 22000,
+              "Total Cost": 12000.0,
+              "Actual Loops": 1,
+              "Plans": [
+                {
+                  "Node Type": "Index Scan",
+                  "Relation Name": "customers",
+                  "Actual Rows": 523,
+                  "Actual Total Time": 3.2,
+                  "Index Name": "customers_region_idx",
+                  "Plan Rows": 523,
+                  "Total Cost": 421.0,
+                  "Index Cond": "(region = 'west'::text)",
+                  "Plans": []
+                },
+                {
+                  "Node Type": "Index Scan",
+                  "Relation Name": "orders",
+                  "Actual Rows": 42,
+                  "Actual Total Time": 7.8,
+                  "Plan Rows": 42,
+                  "Total Cost": 210.0,
+                  "Index Name": "orders_customer_fk",
+                  "Filter": "(status = 'paid'::text)",
+                  "Rows Removed by Filter": 1182,
+                  "Plans": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

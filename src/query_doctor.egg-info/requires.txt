@@ -1,0 +1,9 @@
+typer<1.0,>=0.12
+rich<14.0,>=13.0
+
+[dev]
+pytest>=8.0
+pytest-cov>=5.0
+ruff>=0.6
+mypy>=1.11
+pre-commit>=3.0

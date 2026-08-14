@@ -1,0 +1,10 @@
+EXPLAIN (ANALYZE, BUFFERS)
+SELECT *
+FROM customers
+WHERE id = 42;
+
+Index Scan using customers_pkey on customers  (cost=0.00..4.22 rows=1 width=93)
+  (actual time=0.024..0.041 rows=1 loops=1)
+  Index Cond: (id = 42)
+Planning Time: 0.216 ms
+Execution Time: 0.117 ms
